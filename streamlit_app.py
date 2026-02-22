@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title=“FDA MAUDE - Pacemaker Surveillance”, layout=“wide”)
+st.set_page_config(page_title= "FDA MAUDE - Pacemaker Surveillance", layout="wide")
 st.title(“🫀 FDA MAUDE · Pacemaker Failure Dashboard”)
 st.caption(“Surveillance analytics · Phase-Four Life Sciences”)
 
