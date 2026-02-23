@@ -18,12 +18,7 @@ DATA_DIR = "data"
 DB_PATH = os.path.join(DATA_DIR, "cache.duckdb")
 TABLE = "pma_cache"
 
-DEFAULT_BRANDS = [
-    "Micra", "Azure", "Advisa", "Adapta",
-    "AVEIR", "Assurity", "Endurity",
-    "Accolade", "Essentio",
-    "Edora", "Eluna",
-]
+DEFAULT_BRANDS = ["Micra", "AVEIR", "Azure", "Assurity"]
 
 def ensure_db():
     os.makedirs(DATA_DIR, exist_ok=True)
