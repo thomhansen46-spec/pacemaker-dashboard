@@ -99,8 +99,17 @@ if refresh:
     added_total = 0
     for (yf, yt) in year_chunks(d_from, d_to):
         q = build_search_query(yf, yt, brand_terms, product_codes or None)
-        df_new = fetch_openfda_pma(q, api_key=api_key, max_records=3000, page_size=200)
+        try:
+    df_new = fetch_openfda_pma(q, api_key=api_key, max_records=3000, page_size=200)
+    if df_new.empty:
+        st.warning(f"No matches for year chunk {yf} → {yt}")
+    else:
         added_total += upsert(con, df_new)
+except Exception as e:
+    st.error(str(e))
+    st.code(q)  # shows the exact query being sent
+    st.stop()
+
 
 df = load_cached(con)
 
