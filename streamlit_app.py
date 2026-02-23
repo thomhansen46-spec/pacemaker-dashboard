@@ -104,8 +104,7 @@ if refresh:
     added_total = 0
     for (yf, yt) in year_chunks(d_from, d_to):
         q = build_search_query(yf, yt, brand_terms, product_codes or None)
-        df_new = fetch_openfda_pma(q, api_key=api_key, max_records=25000, page_size=1000)
-        added_total += upsert(con, df_new)
+       df_new = fetch_openfda_pma(q, api_key=api_key, max_records=3000, page_size=200)
     st.success(f"Done. New rows added: {added_total}")
 
 df = load_cached(con)
