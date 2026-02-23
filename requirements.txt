@@ -1,4 +1,7 @@
-
 streamlit
-plotly
 pandas
+plotly
+requests
+duckdb
+pyarrow
+python-dateutil
