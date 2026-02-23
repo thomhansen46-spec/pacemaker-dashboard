@@ -9,9 +9,7 @@ OPENFDA_PMA_ENDPOINT = "https://api.fda.gov/device/pma.json"
 def build_search_query(date_from: str, date_to: str, brand_terms: list[str], product_codes: list[str] | None = None) -> str:
     parts = [
         "decision_code:APPR",
-        f"decision_date:[{date_from}+TO+{date_to}]",
-    ]
-
+        f"decision_date:[{date_from} TO {date_to}]",
     if brand_terms:
         terms = []
         for t in brand_terms:
