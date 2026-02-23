@@ -34,6 +34,35 @@ def fetch_openfda_pma(search_query: str, api_key: str = "", max_records: int = 2
             params["api_key"] = api_key
 
         r = requests.get(OPENFDA_PMA_ENDPOINT, params=params, timeout=30)
+
+        if r.status_code != 200:
+            raise RuntimeError(
+                f"openFDA error: HTTP {r.status_code} | skip={skip} limit={page_size} | "
+                f"response={r.text[:500]}"
+            )
+
+        payload = r.json()
+        results = payload.get("results", [])
+        if not results:
+            break
+
+        rows.extend(results)
+        skip += page_size
+
+        if len(rows) >= max_records:
+            break
+
+        time.sleep(0.15)
+
+    df = pd.json_normalize(rows)
+    return df
+
+    while True:
+        params = {"search": search_query, "limit": page_size, "skip": skip}
+        if api_key:
+            params["api_key"] = api_key
+
+        r = requests.get(OPENFDA_PMA_ENDPOINT, params=params, timeout=30)
         if r.status_code != 200:
     raise RuntimeError(
         f"openFDA error: HTTP {r.status_code} | skip={skip} limit={page_size} | "
@@ -67,5 +96,6 @@ def year_chunks(d_from: date, d_to: date) -> list[tuple[str, str]]:
         if y == d_to.year:
             end = d_to
         chunks.append((start.isoformat(), end.isoformat()))
-    return chunks
+    return 
+    
     
