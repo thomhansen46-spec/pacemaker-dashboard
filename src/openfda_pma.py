@@ -39,8 +39,14 @@ def fetch_openfda_pma(search_query: str, api_key: str = "", max_records: int = 3
             params["api_key"] = api_key
 
         r = requests.get(OPENFDA_PMA_ENDPOINT, params=params, timeout=30)
-        if r.status_code != 200:
-            raise RuntimeError(f"openFDA error: HTTP {r.status_code} | {r.text[:300]}")
+
+# 404 from openFDA = "No matches found!" (not a real error for us)
+if r.status_code == 404:
+    return pd.DataFrame()
+
+if r.status_code != 200:
+    # Raise a safe message we can show in the UI
+    raise RuntimeError(f"openFDA error HTTP {r.status_code}: {r.text[:300]}")
 
         payload = r.json()
         results = payload.get("results", [])
